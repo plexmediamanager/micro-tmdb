@@ -31,13 +31,13 @@ func main() {
 
     //client := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
     //
-    //result, err := client.GetMovieTranslations(475557, nil)
+    //result, err := client.GetTVVideos(63639, nil)
     //if err != nil {
-    //    format.Println(err)
+    //   format.Println(err)
     //} else {
-    //    result, _ := json.Marshal(result)
+    //   result, _ := json.Marshal(result)
     //
-    //    format.Println(string(result))
+    //   format.Println(string(result))
     //}
 
     go application.StartMicroService()
