@@ -1,8 +1,12 @@
 package main
 
 import (
+    "encoding/json"
+    format "fmt"
     "github.com/micro/go-micro/client"
+    "github.com/plexmediamanager/micro-tmdb/tmdb"
     "github.com/plexmediamanager/service"
+    "github.com/plexmediamanager/service/helpers"
     "github.com/plexmediamanager/service/log"
     "time"
 )
@@ -29,18 +33,18 @@ func main() {
         log.Panic(err)
     }
 
-    //client := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
-    //
-    //result, err := client.GetTVVideos(63639, nil)
-    //if err != nil {
-    //   format.Println(err)
-    //} else {
-    //   result, _ := json.Marshal(result)
-    //
-    //   format.Println(string(result))
-    //}
+    client := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
 
-    go application.StartMicroService()
+    result, err := client.GetTVSeasonVideos(63639, 4, nil)
+    if err != nil {
+      format.Println(err)
+    } else {
+      result, _ := json.Marshal(result)
 
-    service.WaitForOSSignal(1)
+      format.Println(string(result))
+    }
+
+    //go application.StartMicroService()
+    //
+    //service.WaitForOSSignal(1)
 }
