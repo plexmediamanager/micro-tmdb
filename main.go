@@ -35,7 +35,7 @@ func main() {
 
     client := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
 
-    result, err := client.GetTVSeasonVideos(63639, 4, nil)
+    result, err := client.GetTVEpisodeVideos(63639, 4, 1, nil)
     if err != nil {
       format.Println(err)
     } else {

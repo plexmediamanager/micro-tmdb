@@ -48,7 +48,7 @@ type TVSeasonCredits struct {
         Job                         string              `json:"job"`
         Name                        string              `json:"name"`
         ProfilePath                 string              `json:"profile_path"`
-    }
+    }                                                   `json:"crew"`
 }
 
 type TVSeasonExternalIDs struct {
