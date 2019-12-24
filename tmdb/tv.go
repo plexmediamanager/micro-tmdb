@@ -250,10 +250,10 @@ func (client *TheMovieDatabase) GetTVEpisodeGroups(id uint64, options map[string
 
 // Get the external ids for a TV show. We currently support the following external sources.
 // https://developers.themoviedb.org/3/tv/get-tv-external-ids
-func (client *TheMovieDatabase) GetTVExternalIDs(id uint64) (*TVExternalIDs, error) {
+func (client *TheMovieDatabase) GetTVExternalIDs(id uint64, options map[string]string) (*TVExternalIDs, error) {
     var structure TVExternalIDs
     result, err := client.sendGetRequest(
-        client.buildRequestUrl("tv", id, "external_ids", nil, nil),
+        client.buildRequestUrl("tv", id, "external_ids", options, nil),
         &structure,
     )
     return result.(*TVExternalIDs), err

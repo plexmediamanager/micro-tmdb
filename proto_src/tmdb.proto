@@ -1,0 +1,83 @@
+syntax = "proto3";
+package proto;
+
+service TMDBService {
+    // Search RPC methods
+    rpc SearchCompanies(TMDBQueryOptions) returns (TMDBResponse) {}
+    rpc SearchMovies(TMDBQueryYearOptions) returns (TMDBResponse) {}
+    rpc SearchTV(TMDBQueryYearOptions) returns (TMDBResponse) {}
+
+    // Movies RPC methods
+    rpc GetMovieInformation(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieAlternativeTitles(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieChanges(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieCredits(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieExternalIDs(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieImages(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieKeywords(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieReleaseDates(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieVideos(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieTranslations(TMDBIDOptions) returns (TMDBResponse) {}
+
+    // Series RPC methods
+    rpc GetTVInformation(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVChanges(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVCredits(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVExternalIDs(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVImages(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVKeywords(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVVideos(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVTranslations(TMDBIDOptions) returns (TMDBResponse) {}
+
+    // Series Seasons RPC methods
+    rpc GetTVSeasonInformation(TMDBSeason) returns (TMDBResponse) {}
+    rpc GetTVSeasonChanges(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVSeasonCredits(TMDBSeason) returns (TMDBResponse) {}
+    rpc GetTVSeasonExternalIDs(TMDBSeason) returns (TMDBResponse) {}
+    rpc GetTVSeasonImages(TMDBSeason) returns (TMDBResponse) {}
+    rpc GetTVSeasonVideos(TMDBSeason) returns (TMDBResponse) {}
+
+    // Series Episodes RPC methods
+    rpc GetTVEpisodeInformation(TMDBSeasonEpisode) returns (TMDBResponse) {}
+    rpc GetTVEpisodeChanges(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetTVEpisodeCredits(TMDBSeasonEpisode) returns (TMDBResponse) {}
+    rpc GetTVEpisodeExternalIDs(TMDBSeasonEpisode) returns (TMDBResponse) {}
+    rpc GetTVEpisodeImages(TMDBSeasonEpisode) returns (TMDBResponse) {}
+    rpc GetTVEpisodeTranslations(TMDBSeasonEpisode) returns (TMDBResponse) {}
+    rpc GetTVEpisodeVideos(TMDBSeasonEpisode) returns (TMDBResponse) {}
+}
+
+message TMDBEmpty {}
+
+message TMDBResponse {
+    bytes               result      =   1;
+}
+
+message TMDBQueryOptions {
+    string              query       =   1;
+    map<string,string>  options     =   2;
+}
+
+message TMDBQueryYearOptions {
+    string              query       =   1;
+    uint64              year        =   2;
+    map<string,string>  options     =   3;
+}
+
+message TMDBIDOptions {
+    uint64              id          =   1;
+    map<string,string>  options     =   2;
+}
+
+message TMDBSeason {
+    uint64              id          =   1;
+    uint64              season      =   2;
+    map<string,string>  options     =   3;
+}
+
+message TMDBSeasonEpisode {
+    uint64              id          =   1;
+    uint64              season      =   2;
+    uint64              episode     =   3;
+    map<string,string>  options     =   4;
+}

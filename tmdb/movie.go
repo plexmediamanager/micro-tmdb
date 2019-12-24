@@ -208,10 +208,10 @@ func (client *TheMovieDatabase) GetMovieCredits(id uint64, options map[string]st
 
 // Get the external ids for a movie.
 // https://developers.themoviedb.org/3/movies/get-movie-external-ids
-func (client *TheMovieDatabase) GetMovieExternalIDs(id uint64) (*MovieExternalIDs, error) {
+func (client *TheMovieDatabase) GetMovieExternalIDs(id uint64, options map[string]string) (*MovieExternalIDs, error) {
     var externalIDs MovieExternalIDs
     result, err := client.sendGetRequest(
-        client.buildRequestUrl("movie", id, "external_ids", nil, nil),
+        client.buildRequestUrl("movie", id, "external_ids", options, nil),
         &externalIDs,
     )
     return result.(*MovieExternalIDs), err

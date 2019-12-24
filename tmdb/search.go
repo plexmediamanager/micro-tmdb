@@ -58,13 +58,15 @@ type SearchTV struct {
 
 // Search for companies.
 // https://developers.themoviedb.org/3/search/search-companies
-func (client *TheMovieDatabase) SearchCompanies(query string, page uint64, language string) (*SearchCompanies, error) {
+func (client *TheMovieDatabase) SearchCompanies(query string, options map[string]string) (*SearchCompanies, error) {
     var structure SearchCompanies
-    options := map[string]string {
-        "query":    query,
-        "page":     format.Sprint(page),
-        "language": language,
+    mergedOptions := make(map[string]string)
+    if options != nil {
+        for key, value := range options {
+            mergedOptions[key] = value
+        }
     }
+    mergedOptions["query"] = query
 
     availableOptions := map[string]struct{} {
         "language":             {},
@@ -73,7 +75,7 @@ func (client *TheMovieDatabase) SearchCompanies(query string, page uint64, langu
     }
 
     result, err := client.sendGetRequest(
-        client.buildRequestUrl("search/company", nil, nil, options, availableOptions),
+        client.buildRequestUrl("search/company", nil, nil, mergedOptions, availableOptions),
         &structure,
     )
     return result.(*SearchCompanies), err

@@ -1,9 +1,9 @@
 package main
 
 import (
-    "encoding/json"
-    format "fmt"
     "github.com/micro/go-micro/client"
+    "github.com/plexmediamanager/micro-tmdb/proto"
+    "github.com/plexmediamanager/micro-tmdb/resolver"
     "github.com/plexmediamanager/micro-tmdb/tmdb"
     "github.com/plexmediamanager/service"
     "github.com/plexmediamanager/service/helpers"
@@ -32,18 +32,14 @@ func main() {
     if err != nil {
         log.Panic(err)
     }
+    tmdbClient := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
 
-    client := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
-
-    result, err := client.SearchTV("The Witcher", 2019, nil)
+    err = proto.RegisterTMDBServiceHandler(application.Service().Server(), resolver.TMDBService{ TMDB: tmdbClient })
     if err != nil {
-      format.Println(err)
-    } else {
-      result, _ := json.Marshal(result)
-      format.Println(string(result))
+        log.Panic(err)
     }
 
-    //go application.StartMicroService()
-    //
-    //service.WaitForOSSignal(1)
+    go application.StartMicroService()
+
+    service.WaitForOSSignal(1)
 }
