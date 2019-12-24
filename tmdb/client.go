@@ -81,7 +81,6 @@ func (client *TheMovieDatabase) buildRequestUrl(
     if subQuery != nil {
         requestUrl += format.Sprintf("/%v", subQuery)
     }
-    format.Println("Request URL:", requestUrl)
     return requestUrl + client.buildOptionsString(options, availableOptions)
 }
 

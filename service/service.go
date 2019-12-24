@@ -5,6 +5,7 @@ import (
     microClient "github.com/micro/go-micro/client"
     "github.com/plexmediamanager/micro-tmdb/errors"
     "github.com/plexmediamanager/micro-tmdb/proto"
+    "github.com/plexmediamanager/service"
 )
 
 // Convert response to structure
@@ -20,5 +21,5 @@ func protoToStructure(output interface{}, result *proto.TMDBResponse, err error)
 }
 
 func GetTMDBService(client microClient.Client) proto.TMDBService {
-    return proto.NewTMDBService("micro.tmdb", client)
+    return proto.NewTMDBService(service.GetServiceName(service.TMDBServiceName), client)
 }
