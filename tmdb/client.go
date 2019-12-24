@@ -70,12 +70,14 @@ func (client *TheMovieDatabase) buildRequestUrl(
     availableOptions map[string]struct{},
 ) string {
     requestUrl := format.Sprintf(
-        "%s/%d/%s/%v",
+        "%s/%d/%s",
         client.apiEndpoint,
         client.apiVersion,
         endpoint,
-        item,
     )
+    if item != nil {
+        requestUrl += format.Sprintf("/%v", item)
+    }
     if subQuery != nil {
         requestUrl += format.Sprintf("/%v", subQuery)
     }
@@ -89,7 +91,7 @@ func (client *TheMovieDatabase) buildOptionsString(options map[string]string, av
     optionsString.WriteString(format.Sprintf("?api_key=%s", client.apiKey))
     for key, value := range options {
         if _, exists := availableOptions[key]; exists {
-            optionsString.WriteString(format.Sprintf("&%s=%s", key, value))
+            optionsString.WriteString(format.Sprintf("&%s=%s", key, strings.Replace(value, " ", "%20", -1)))
         }
     }
     return optionsString.String()

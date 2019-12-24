@@ -35,12 +35,11 @@ func main() {
 
     client := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
 
-    result, err := client.GetTVEpisodeVideos(63639, 4, 1, nil)
+    result, err := client.SearchTV("The Witcher", 2019, nil)
     if err != nil {
       format.Println(err)
     } else {
       result, _ := json.Marshal(result)
-
       format.Println(string(result))
     }
 
