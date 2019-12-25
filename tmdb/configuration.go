@@ -61,13 +61,17 @@ func (client *TheMovieDatabase) GetCountries() (*Countries, error) {
 
 // Get the list of languages (ISO 639-1 tags) used throughout TMDb.
 // https://developers.themoviedb.org/3/configuration/get-languages
-func (client *TheMovieDatabase) GetLanguages() (*Languages, error) {
+func (client *TheMovieDatabase) GetLanguages() ([]*Language, error) {
     var structure Languages
-    result, err := client.sendGetRequest(
+    _, err := client.sendGetRequest(
         client.buildRequestUrl("configuration", nil, "languages", nil, nil),
         &structure,
     )
-    return result.(*Languages), err
+    var languages []*Language
+    for _, language := range structure {
+        languages = append(languages, &language)
+    }
+    return languages, err
 }
 
 // Get a list of the officially supported translations on TMDb.

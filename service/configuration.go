@@ -23,8 +23,8 @@ func TMDBServiceGetCountries (client microClient.Client) (*tmdb.Countries, error
     return result, protoToStructure(&result, response, err)
 }
 
-func TMDBServiceGetLanguages (client microClient.Client) (*tmdb.Languages, error) {
-    var result *tmdb.Languages
+func TMDBServiceGetLanguages (client microClient.Client) ([]*tmdb.Language, error) {
+    var result []*tmdb.Language
     service := GetTMDBService(client)
     parameters := &proto.TMDBEmpty{}
     response, err := service.GetLanguages(context.TODO(), parameters)
