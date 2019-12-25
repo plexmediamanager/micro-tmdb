@@ -4,6 +4,7 @@ import (
     "encoding/json"
     format "fmt"
     "github.com/plexmediamanager/micro-tmdb/errors"
+    "github.com/plexmediamanager/service/helpers"
     "io/ioutil"
     "net/http"
     "strings"
@@ -21,9 +22,9 @@ type TheMovieDatabase struct {
 }
 
 // Initialize TheMovieDatabase
-func Initialize(apiKey string) *TheMovieDatabase {
+func Initialize() *TheMovieDatabase {
     return &TheMovieDatabase {
-        apiKey:         apiKey,
+        apiKey:         helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""),
         apiVersion:     3,
         apiEndpoint:    "https://api.themoviedb.org",
     }

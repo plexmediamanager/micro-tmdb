@@ -34,6 +34,12 @@ var _ server.Option
 // Client API for TMDBService service
 
 type TMDBService interface {
+	// Configuration RPC methods
+	GetAPIConfiguration(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error)
+	GetCountries(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error)
+	GetLanguages(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error)
+	GetPrimaryTranslations(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error)
+	GetTimeZones(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error)
 	// Search RPC methods
 	SearchCompanies(ctx context.Context, in *TMDBQueryOptions, opts ...client.CallOption) (*TMDBResponse, error)
 	SearchMovies(ctx context.Context, in *TMDBQueryYearOptions, opts ...client.CallOption) (*TMDBResponse, error)
@@ -91,6 +97,56 @@ func NewTMDBService(name string, c client.Client) TMDBService {
 		c:    c,
 		name: name,
 	}
+}
+
+func (c *tMDBService) GetAPIConfiguration(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error) {
+	req := c.c.NewRequest(c.name, "TMDBService.GetAPIConfiguration", in)
+	out := new(TMDBResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tMDBService) GetCountries(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error) {
+	req := c.c.NewRequest(c.name, "TMDBService.GetCountries", in)
+	out := new(TMDBResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tMDBService) GetLanguages(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error) {
+	req := c.c.NewRequest(c.name, "TMDBService.GetLanguages", in)
+	out := new(TMDBResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tMDBService) GetPrimaryTranslations(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error) {
+	req := c.c.NewRequest(c.name, "TMDBService.GetPrimaryTranslations", in)
+	out := new(TMDBResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tMDBService) GetTimeZones(ctx context.Context, in *TMDBEmpty, opts ...client.CallOption) (*TMDBResponse, error) {
+	req := c.c.NewRequest(c.name, "TMDBService.GetTimeZones", in)
+	out := new(TMDBResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *tMDBService) SearchCompanies(ctx context.Context, in *TMDBQueryOptions, opts ...client.CallOption) (*TMDBResponse, error) {
@@ -436,6 +492,12 @@ func (c *tMDBService) GetTVEpisodeVideos(ctx context.Context, in *TMDBSeasonEpis
 // Server API for TMDBService service
 
 type TMDBServiceHandler interface {
+	// Configuration RPC methods
+	GetAPIConfiguration(context.Context, *TMDBEmpty, *TMDBResponse) error
+	GetCountries(context.Context, *TMDBEmpty, *TMDBResponse) error
+	GetLanguages(context.Context, *TMDBEmpty, *TMDBResponse) error
+	GetPrimaryTranslations(context.Context, *TMDBEmpty, *TMDBResponse) error
+	GetTimeZones(context.Context, *TMDBEmpty, *TMDBResponse) error
 	// Search RPC methods
 	SearchCompanies(context.Context, *TMDBQueryOptions, *TMDBResponse) error
 	SearchMovies(context.Context, *TMDBQueryYearOptions, *TMDBResponse) error
@@ -479,6 +541,11 @@ type TMDBServiceHandler interface {
 
 func RegisterTMDBServiceHandler(s server.Server, hdlr TMDBServiceHandler, opts ...server.HandlerOption) error {
 	type tMDBService interface {
+		GetAPIConfiguration(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error
+		GetCountries(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error
+		GetLanguages(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error
+		GetPrimaryTranslations(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error
+		GetTimeZones(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error
 		SearchCompanies(ctx context.Context, in *TMDBQueryOptions, out *TMDBResponse) error
 		SearchMovies(ctx context.Context, in *TMDBQueryYearOptions, out *TMDBResponse) error
 		SearchTV(ctx context.Context, in *TMDBQueryYearOptions, out *TMDBResponse) error
@@ -523,6 +590,26 @@ func RegisterTMDBServiceHandler(s server.Server, hdlr TMDBServiceHandler, opts .
 
 type tMDBServiceHandler struct {
 	TMDBServiceHandler
+}
+
+func (h *tMDBServiceHandler) GetAPIConfiguration(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error {
+	return h.TMDBServiceHandler.GetAPIConfiguration(ctx, in, out)
+}
+
+func (h *tMDBServiceHandler) GetCountries(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error {
+	return h.TMDBServiceHandler.GetCountries(ctx, in, out)
+}
+
+func (h *tMDBServiceHandler) GetLanguages(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error {
+	return h.TMDBServiceHandler.GetLanguages(ctx, in, out)
+}
+
+func (h *tMDBServiceHandler) GetPrimaryTranslations(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error {
+	return h.TMDBServiceHandler.GetPrimaryTranslations(ctx, in, out)
+}
+
+func (h *tMDBServiceHandler) GetTimeZones(ctx context.Context, in *TMDBEmpty, out *TMDBResponse) error {
+	return h.TMDBServiceHandler.GetTimeZones(ctx, in, out)
 }
 
 func (h *tMDBServiceHandler) SearchCompanies(ctx context.Context, in *TMDBQueryOptions, out *TMDBResponse) error {

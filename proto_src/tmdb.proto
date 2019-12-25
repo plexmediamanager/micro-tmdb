@@ -2,6 +2,13 @@ syntax = "proto3";
 package proto;
 
 service TMDBService {
+    // Configuration RPC methods
+    rpc GetAPIConfiguration(TMDBEmpty) returns (TMDBResponse) {}
+    rpc GetCountries(TMDBEmpty) returns (TMDBResponse) {}
+    rpc GetLanguages(TMDBEmpty) returns (TMDBResponse) {}
+    rpc GetPrimaryTranslations(TMDBEmpty) returns (TMDBResponse) {}
+    rpc GetTimeZones(TMDBEmpty) returns (TMDBResponse) {}
+
     // Search RPC methods
     rpc SearchCompanies(TMDBQueryOptions) returns (TMDBResponse) {}
     rpc SearchMovies(TMDBQueryYearOptions) returns (TMDBResponse) {}

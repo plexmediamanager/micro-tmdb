@@ -6,7 +6,6 @@ import (
     "github.com/plexmediamanager/micro-tmdb/resolver"
     "github.com/plexmediamanager/micro-tmdb/tmdb"
     "github.com/plexmediamanager/service"
-    "github.com/plexmediamanager/service/helpers"
     "github.com/plexmediamanager/service/log"
     "time"
 )
@@ -32,7 +31,7 @@ func main() {
     if err != nil {
         log.Panic(err)
     }
-    tmdbClient := tmdb.Initialize(helpers.GetEnvironmentVariableAsString("TMDB_API_KEY", ""))
+    tmdbClient := tmdb.Initialize()
 
     err = proto.RegisterTMDBServiceHandler(application.Service().Server(), resolver.TMDBService{ TMDB: tmdbClient })
     if err != nil {
