@@ -46,6 +46,7 @@ type TMDBService interface {
 	SearchTV(ctx context.Context, in *TMDBQueryYearOptions, opts ...client.CallOption) (*TMDBResponse, error)
 	// Movies RPC methods
 	GetMovieInformation(ctx context.Context, in *TMDBIDOptions, opts ...client.CallOption) (*TMDBResponse, error)
+	GetMovieInformationForDatabase(ctx context.Context, in *TMDBIDOptions, opts ...client.CallOption) (*TMDBResponse, error)
 	GetMovieAlternativeTitles(ctx context.Context, in *TMDBIDOptions, opts ...client.CallOption) (*TMDBResponse, error)
 	GetMovieChanges(ctx context.Context, in *TMDBIDOptions, opts ...client.CallOption) (*TMDBResponse, error)
 	GetMovieCredits(ctx context.Context, in *TMDBIDOptions, opts ...client.CallOption) (*TMDBResponse, error)
@@ -181,6 +182,16 @@ func (c *tMDBService) SearchTV(ctx context.Context, in *TMDBQueryYearOptions, op
 
 func (c *tMDBService) GetMovieInformation(ctx context.Context, in *TMDBIDOptions, opts ...client.CallOption) (*TMDBResponse, error) {
 	req := c.c.NewRequest(c.name, "TMDBService.GetMovieInformation", in)
+	out := new(TMDBResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tMDBService) GetMovieInformationForDatabase(ctx context.Context, in *TMDBIDOptions, opts ...client.CallOption) (*TMDBResponse, error) {
+	req := c.c.NewRequest(c.name, "TMDBService.GetMovieInformationForDatabase", in)
 	out := new(TMDBResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -504,6 +515,7 @@ type TMDBServiceHandler interface {
 	SearchTV(context.Context, *TMDBQueryYearOptions, *TMDBResponse) error
 	// Movies RPC methods
 	GetMovieInformation(context.Context, *TMDBIDOptions, *TMDBResponse) error
+	GetMovieInformationForDatabase(context.Context, *TMDBIDOptions, *TMDBResponse) error
 	GetMovieAlternativeTitles(context.Context, *TMDBIDOptions, *TMDBResponse) error
 	GetMovieChanges(context.Context, *TMDBIDOptions, *TMDBResponse) error
 	GetMovieCredits(context.Context, *TMDBIDOptions, *TMDBResponse) error
@@ -550,6 +562,7 @@ func RegisterTMDBServiceHandler(s server.Server, hdlr TMDBServiceHandler, opts .
 		SearchMovies(ctx context.Context, in *TMDBQueryYearOptions, out *TMDBResponse) error
 		SearchTV(ctx context.Context, in *TMDBQueryYearOptions, out *TMDBResponse) error
 		GetMovieInformation(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error
+		GetMovieInformationForDatabase(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error
 		GetMovieAlternativeTitles(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error
 		GetMovieChanges(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error
 		GetMovieCredits(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error
@@ -626,6 +639,10 @@ func (h *tMDBServiceHandler) SearchTV(ctx context.Context, in *TMDBQueryYearOpti
 
 func (h *tMDBServiceHandler) GetMovieInformation(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error {
 	return h.TMDBServiceHandler.GetMovieInformation(ctx, in, out)
+}
+
+func (h *tMDBServiceHandler) GetMovieInformationForDatabase(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error {
+	return h.TMDBServiceHandler.GetMovieInformationForDatabase(ctx, in, out)
 }
 
 func (h *tMDBServiceHandler) GetMovieAlternativeTitles(ctx context.Context, in *TMDBIDOptions, out *TMDBResponse) error {

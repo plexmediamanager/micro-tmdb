@@ -16,6 +16,7 @@ service TMDBService {
 
     // Movies RPC methods
     rpc GetMovieInformation(TMDBIDOptions) returns (TMDBResponse) {}
+    rpc GetMovieInformationForDatabase(TMDBIDOptions) returns (TMDBResponse) {}
     rpc GetMovieAlternativeTitles(TMDBIDOptions) returns (TMDBResponse) {}
     rpc GetMovieChanges(TMDBIDOptions) returns (TMDBResponse) {}
     rpc GetMovieCredits(TMDBIDOptions) returns (TMDBResponse) {}

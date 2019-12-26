@@ -1,5 +1,22 @@
 package tmdb
 
+type Genre struct {
+    ID                      uint64              `json:"id"`
+    Name                    string              `json:"name"`
+}
+
+type ProductionCompany struct {
+    ID                      uint64              `json:"id"`
+    LogoPath                string              `json:"logo_path"`
+    Name                    string              `json:"name"`
+    OriginCountry           string              `json:"origin_country"`
+}
+
+type ProductionCountry struct {
+    ISO31661                string              `json:"iso_3166_1"`
+    Name                    string              `json:"name"`
+}
+
 type CommonImage struct {
     AspectRatio                         float64         `json:"aspect_ratio"`
     FilePath                            string          `json:"file_path"`

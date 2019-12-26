@@ -3,6 +3,7 @@ package service
 import (
     "context"
     microClient "github.com/micro/go-micro/client"
+    "github.com/plexmediamanager/micro-database/models"
     "github.com/plexmediamanager/micro-tmdb/proto"
     "github.com/plexmediamanager/micro-tmdb/tmdb"
 )
@@ -12,6 +13,14 @@ func TMDBGetMovieInformation (client microClient.Client, id uint64, options map[
     service := GetTMDBService(client)
     parameters := &proto.TMDBIDOptions{ Id: id, Options: options }
     response, err := service.GetMovieInformation(context.TODO(), parameters)
+    return result, protoToStructure(&result, response, err)
+}
+
+func GetMovieInformationForDatabase (client microClient.Client, id uint64, options map[string]string) (*models.Movie, error) {
+    var result *models.Movie
+    service := GetTMDBService(client)
+    parameters := &proto.TMDBIDOptions{ Id: id, Options: options }
+    response, err := service.GetMovieInformationForDatabase(context.TODO(), parameters)
     return result, protoToStructure(&result, response, err)
 }
 

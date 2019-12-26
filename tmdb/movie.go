@@ -1,14 +1,14 @@
 package tmdb
 
+import (
+    "github.com/plexmediamanager/micro-database/models"
+)
+
 type Movie struct {
     Adult                       bool                `json:"adult"`
     BackdropPath                string              `json:"backdrop_path"`
-    BelongsToCollection         CollectionShort     `json:"belongs_to_collection"`
     Budget                      uint64              `json:"budget"`
-    Genres                      []struct            {
-        ID                      uint64              `json:"id"`
-        Name                    string              `json:"name"`
-    }                                               `json:"genres"`
+    Genres                      []Genre             `json:"genres"`
     Homepage                    string              `json:"homepage"`
     ID                          uint64              `json:"id"`
     ImdbID                      string              `json:"imdb_id"`
@@ -17,21 +17,16 @@ type Movie struct {
     Overview                    string              `json:"overview"`
     Popularity                  float64             `json:"popularity"`
     PosterPath                  string              `json:"poster_path"`
-    ProductionCompanies         []struct            {
-        ISO31661                string              `json:"iso_3166_1"`
-        Name                    string              `json:"name"`
-    }                                               `json:"production_companies"`
+    ProductionCompanies         []ProductionCompany `json:"production_companies"`
+    ProductionCountries         []ProductionCountry `json:"production_countries"`
     ReleaseDate                 string              `json:"release_date"`
     Revenue                     uint64              `json:"revenue"`
     Runtime                     uint64              `json:"runtime"`
-    SpokenLanguages             []struct            {
-        ISO6391                 string              `json:"iso_639_1"`
-        Name                    string              `json:"name"`
-    }                                               `json:"spoken_languages"`
+    SpokenLanguages             []Language          `json:"spoken_languages"`
     Status                      string              `json:"status"`
-    TagLine                     string              `json:"tagline"`
+    Tagline                     string              `json:"tagline"`
     Title                       string              `json:"title"`
-    Video                       bool                `json:"bool"`
+    Video                       bool                `json:"video"`
     VoteAverage                 float64             `json:"vote_average"`
     VoteCount                   uint64              `json:"vote_count"`
 }
@@ -160,6 +155,15 @@ func (client *TheMovieDatabase) GetMovieInformation(id uint64, options map[strin
         &movie,
     )
     return result.(*Movie), err
+}
+
+// Get information for specific movie by its ID (Ready for the database)
+func (client *TheMovieDatabase) GetMovieInformationForDatabase(id uint64, options map[string]string) (*models.Movie, error) {
+    result, err := client.GetMovieInformation(id, options)
+    if err != nil {
+        return nil, err
+    }
+    return ProcessMovie(result), nil
 }
 
 // Get alternative titles for the movie by its ID

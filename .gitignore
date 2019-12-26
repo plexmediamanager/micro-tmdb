@@ -2,6 +2,7 @@
 development.env
 build/
 .idea/
+processor/backup
 docker-compose.yml
 *.exe
 0

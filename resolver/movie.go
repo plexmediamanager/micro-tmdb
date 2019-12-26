@@ -10,6 +10,11 @@ func (service TMDBService) GetMovieInformation (_ context.Context, parameters *p
     return structureToBytesWithError(result, err, response)
 }
 
+func (service TMDBService) GetMovieInformationForDatabase (_ context.Context, parameters *proto.TMDBIDOptions, response *proto.TMDBResponse) error {
+    result, err := service.TMDB.GetMovieInformationForDatabase(parameters.Id, parameters.Options)
+    return structureToBytesWithError(result, err, response)
+}
+
 func (service TMDBService) GetMovieAlternativeTitles (_ context.Context, parameters *proto.TMDBIDOptions, response *proto.TMDBResponse) error {
     result, err := service.TMDB.GetMovieAlternativeTitles(parameters.Id, parameters.Options)
     return structureToBytesWithError(result, err, response)
